@@ -1,26 +1,33 @@
 {
   "version": 2,
-  "functions": {
-    "api/*.py": {
-      "runtime": "@vercel/python",
-      "maxDuration": 10
+  "builds": [
+    {
+      "src": "app/app.py",
+      "use": "@vercel/python@3.9"
     },
-    "index.js": {
-      "runtime": "@vercel/node",
-      "maxDuration": 10
+    {
+      "src": "app.js",
+      "use": "@vercel/node@14"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "dest": "app/app.py"
     },
     {
       "src": "/(.*)",
-      "dest": "/index.js"
+      "dest": "app.js"
     }
   ],
-  "env": {
-    "PYTHONUNBUFFERED": "1"
+  "build": {
+    "env": {
+      "PYTHONUNBUFFERED": "1"
+    }
+  },
+  "functions": {
+    "api/*.py": {
+      "runtime": "python@3.9"
+    }
   }
 }
