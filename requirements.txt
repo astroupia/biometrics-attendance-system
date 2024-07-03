@@ -1,6 +1,6 @@
-CMake
+#CMake
 #dlib
-face_recognition
+#face_recognition
 numpy
 pandas
 xlrd
