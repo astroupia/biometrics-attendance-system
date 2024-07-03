@@ -1,5 +1,5 @@
 CMake
-dlib
+#dlib
 face_recognition
 numpy
 pandas
@@ -7,7 +7,7 @@ xlrd
 opencv-python
 xlsxwriter
 openpyxl
-beepy
+#beepy
 pymongo
 Flask
 Flask-Cors
