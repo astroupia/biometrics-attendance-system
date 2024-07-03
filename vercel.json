@@ -3,11 +3,11 @@
   "builds": [
     {
       "src": "app/app.py",
-      "use": "@vercel/python@3.9"
+      "use": "@vercel/python"
     },
     {
       "src": "app.js",
-      "use": "@vercel/node@14"
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -23,11 +23,6 @@
   "build": {
     "env": {
       "PYTHONUNBUFFERED": "1"
-    }
-  },
-  "functions": {
-    "api/*.py": {
-      "runtime": "python@3.9"
     }
   }
 }
