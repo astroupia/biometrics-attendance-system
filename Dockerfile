@@ -1,12 +1,16 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+# Use Node.js as the base image (it includes Python)
+FROM node:14
 
 # Set environment variables
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100
 
-# Install system dependencies
-RUN apt-get update \
-    && apt-get install -y \
+# Install system dependencies and Python
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    python3-pip \
     build-essential \
     cmake \
     libopenblas-dev \
@@ -15,21 +19,36 @@ RUN apt-get update \
     libgtk-3-dev \
     libboost-python-dev \
     libboost-thread-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    curl \
+    libasound2-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Create and set the working directory
-RUN mkdir /code
-WORKDIR /code
+# Set up the working directory
+WORKDIR /app
 
-# Copy the requirements file
-COPY requirements.txt /code/
+# Copy the entire project directory
+COPY . /app
 
 # Install Python dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt
 
-# Copy the rest of the application code
-COPY . /code/
+# Install Node.js dependencies (including nodemon globally)
+RUN npm ci && npm install -g nodemon
 
-# Run the Flask application
-CMD ["python", "app.py"]
+# Create a start script
+RUN echo '#!/bin/bash\n\
+python3 app.py & \
+npm start' > /app/start.sh && chmod +x /app/start.sh
+
+# Expose ports (adjust if your app uses different ports)
+EXPOSE 5000 3000
+
+# Start both applications
+CMD ["/app/start.sh"]
