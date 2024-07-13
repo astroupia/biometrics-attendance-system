@@ -1,11 +1,13 @@
-# Use Node.js as the base image (it includes Python)
+# Use Node.js as the base image (which already includes npm)
 FROM node:14
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100
+    PIP_DEFAULT_TIMEOUT=100 \
+    FLASK_ENV=development \
+    FLASK_DEBUG=1
 
 # Install system dependencies and Python
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -39,12 +41,15 @@ COPY . /app
 RUN pip3 install --upgrade pip && \
     pip3 install -r requirements.txt
 
-# Install Node.js dependencies (including nodemon globally)
-RUN npm ci && npm install -g nodemon
+# Install Node.js dependencies
+RUN npm install
+
+# Install nodemon globally
+RUN npm install -g nodemon
 
 # Create a start script
 RUN echo '#!/bin/bash\n\
-python3 app.py & \
+python3 .app/app.py & \
 npm start' > /app/start.sh && chmod +x /app/start.sh
 
 # Expose ports (adjust if your app uses different ports)
