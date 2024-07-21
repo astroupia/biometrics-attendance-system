@@ -15,5 +15,10 @@
   "env": {
     "NODE_ENV": "production",
     "PORT": "3000"
+  },
+  "functions": {
+    "app.js": {
+      "maxDuration": 100
+    }
   }
 }
