@@ -5,7 +5,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var expressHbs = require("express-handlebars");
-var mongoose = require("mongoose");
+// var mongoose = require("mongoose");
 var session = require("express-session");
 var passport = require("passport");
 var flash = require("connect-flash");
@@ -23,15 +23,19 @@ var classrouter = require("./routes/classroom");
 var app = express();
 
 // Connect to MongoDB
+const mongoose = require("mongoose");
+
+// Use the service name 'mongo' as the host
+const mongoUri =
+  process.env.MONGO_URI || "mongodb://mongo:27017/attendance_portal";
+
 mongoose
-  .connect("mongodb://localhost:27017/attendance_portal", {
+  .connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("MongoDB connected..."))
   .catch((err) => console.error("MongoDB connection error:", err));
-
-require("./config/passport");
 
 const hbs = expressHbs.create({
   defaultLayout: "layout",
