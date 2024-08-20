@@ -78,13 +78,6 @@ The Attendance Tracking System is a web application designed to manage and track
    ```sh
    npm start
    ```
-
-## Deployment
-
-### Vercel
-
-1. Install the Vercel CLI:
-
    ```sh
    npm install -g vercel
    ```

@@ -13,6 +13,7 @@ const Handlebars = require("handlebars");
 const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
+
 const createError = require("http-errors");
 const mongoose = require("mongoose");
 
@@ -116,6 +117,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // Routes setup
 app.use("/", indexRouter);
 app.use("/user", userRouter);
@@ -133,6 +135,7 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render("error");
 });
+
 
 // Start the server
 const port = 3000;
