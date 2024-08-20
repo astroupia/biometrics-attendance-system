@@ -1,3 +1,4 @@
 node_modules/
 
 Py-Scripts/mip_env
+.vercel
