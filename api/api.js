@@ -6,7 +6,6 @@ var fs = require('fs')
 const Excel = require('exceljs');
 const record = require('../models/record');
 
-//Function that returns the details of each class
 async function forClassDeatils(classId) {
 
     var classroom = await classModel.findById(classId)
